@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <title>Quin Jump King Progress</title>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <meta name="description" content="Track quins jump king progress" />
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+  <h1>Quins Jump King Progress!</h1>
+  <div id="chart_div"></div>
+
+<select name="date" id="date" onchange="draw_basic(this)">
+</select>
+
+
+</body>
+
+<script>
+google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(draw_basic);
+
+function draw_basic() {
+    let d = document.getElementById("date").value;
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('number', 'Progress');
+    data.addColumn('number', 'Percentage');
+
+    data.addRows(get_data(d));
+
+    var options = {
+        hAxis: {
+            title: 'Time (10s interval)'
+        },
+        vAxis: {
+            title: 'progress',
+            viewWindowMode:'explicit',
+            viewWindow: {
+              max:100,
+              min:0,
+            }
+        }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+    chart.draw(data, options);
+}
+
+function get_data(d) {
+    if (window.data === undefined) {
+        return [[0,0],[1,10],[2,20],[3,40]];
+    }
+    let data_array = window.data[d];
+    let chart_array = [];
+    for (var i = 0; i < data_array.length; ++i) {
+        let percent = Math.ceil(data_array[i] / 43 * 100);
+        chart_array.push([i, percent]);
+    }
+    return chart_array;
+}
+
+function init(data) {
+    for (key of Object.keys(data)) {
+        let option = document.createElement("option");
+        option.innerText = key;
+        option.value = key;
+        document.getElementById("date").appendChild(option);
+    }
+    window.data = data;
+    draw_basic();
+}
+
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var data = JSON.parse(this.responseText);
+        init(data)
+    }
+};
+xhr.open("GET", "/data.json", true);
+xhr.send();
+</script>
+
+</html>
