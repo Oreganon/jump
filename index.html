@@ -94,7 +94,7 @@ function get_data(d) {
     let data_array = window.data[d];
     let chart_array = [];
     for (var i = 0; i < data_array.length; ++i) {
-        let percent = Math.ceil(data_array[i] / 43 * 100);
+        let percent = Math.ceil((data_array[i]-1) / 42 * 100);
         chart_array.push([i, percent]);
     }
     return chart_array;
