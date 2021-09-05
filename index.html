@@ -20,14 +20,38 @@
 <body>
 
   <h1>Quins Jump King Progress</h1>
+  <a href="#how">How this works</a>
 
 <select name="date" id="date" onchange="draw_basic(this)">
 </select>
 
   <div id="chart_div"></div>
 
-</body>
 
+<div class="container">
+<h2 id="how">How this works</h2>
+<p>tldr: machine learning detects screens in images</p>
+<p>I took a speedrun of jump king and extracted about 5 seconds for each screen. From this I extracted the frames for further processing.<p>
+<p>To reduce the complexity the images are resized to 40x22 pixels and the edges are detected. This reduces the information of each image from 1920*1080*255*255*255 = 34383139200000 (pixels * rgb information) to 40*22*2 = 1760 (pixels * black or white).</p>
+<p>Below are examples of what the machine learning models sees.</p>
+<p>Screen 20</p>
+<img src="images/screen20/1.jpg" alt="jump king screen 20">
+<img src="images/screen20/2.jpg" alt="jump king screen 20">
+<img src="images/screen20/3.jpg" alt="jump king screen 20">
+<p>Screen 11</p>
+<img src="images/screen11/1.jpg" alt="jump king screen 11">
+<img src="images/screen11/2.jpg" alt="jump king screen 11">
+<img src="images/screen11/3.jpg" alt="jump king screen 11">
+<p>As you can see there are clear differences between different screens. These differences can also be detected by machine learning models.</p>
+<p>Actually I am using 5 different machine learning models. Quin often has stuff on screen (donos, rolls, browser window due to stalling) which is obviously not included in the learning data from the speedrun. I noticed when using a single model that it would get confused and miss classify images despite having over 99% accuracy on frames from the speedrun. So I just use 5 models and let them each classify images independently. If 4 or more agree on a screen then that probably true.<p>
+<p>The rest is just applying the preductions to the streams and plotting the results.</p>
+</div>
+</body>
+<style>
+.container {
+    width: 80em;
+}
+</style>
 <script>
 google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(draw_basic);
