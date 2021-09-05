@@ -13,16 +13,18 @@
   <meta name="description" content="Track quins jump king progress" />
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <link rel="icon" href="favicon.gif">
 </head>
 
 <body>
 
-  <h1>Quins Jump King Progress!</h1>
-  <div id="chart_div"></div>
+  <h1>Quins Jump King Progress</h1>
 
 <select name="date" id="date" onchange="draw_basic(this)">
 </select>
 
+  <div id="chart_div"></div>
 
 </body>
 
@@ -43,6 +45,9 @@ function draw_basic() {
         hAxis: {
             title: 'Time (10s interval)'
         },
+        width: document.body.offsetWidth,
+        height: 900,
+        explorer: { axis: 'horizontal' },
         vAxis: {
             title: 'progress',
             viewWindowMode:'explicit',
