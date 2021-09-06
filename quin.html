@@ -4,30 +4,36 @@
 
 <head>
 
-  <title>Jump King Progress</title>
+  <title>Quin Jump King Progress</title>
 
   <meta charset="UTF-8" />
 
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-  <meta name="description" content="Track jump king progress" />
+  <meta name="description" content="Track quins jump king progress" />
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
   <link rel="icon" href="favicon.gif">
 </head>
 
-<body>
+<body onload='plot("data/quin.json")'>
 
-  <h1>Jump King Progress</h1>
+  <h1>Quins Jump King Progress</h1>
   <a href="how.html">How this works</a>
 
+  <select name="date" id="date" onchange="draw_basic(this)">
+  </select>
     <iframe id="also_iframe"
         frameBorder="0"
         title="who else"
         src="also.html">
     </iframe>
+
+  <div id="chart_div"></div>
+
   <script type="application/javascript" src="js/plot.js"></script>
   <link href="css/style.css" rel="stylesheet" type="text/css" media="all">
 </body>
 </html>
+
